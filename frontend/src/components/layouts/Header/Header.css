@@ -1,0 +1,25 @@
+.link {
+
+    text-decoration: none;
+
+    /* width: 14vmax; */
+    /* display: flex; */
+    /* flex-direction: column; */
+    text-decoration: none;
+    /* color: rgb(48, 48, 48); */
+    /* margin: 2vmax; */
+    /* transition: all 0.5s; */
+    /* padding-bottom: 0.5vmax; */
+}
+
+.speedDial {
+    position: fixed;
+    right: 2vmax;
+    top: 6vmax;
+}
+
+.speedDialIcon {
+    width: 56px;
+    height: 56px;
+    border-radius: 100%;
+}

@@ -20,7 +20,7 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 // get all products
 exports.getAllProducts = catchAsyncErrors(async (req, res) => {
 
-    const resultPerPage = 3;
+    const resultPerPage = 2;
     const productsCount = await Product.countDocuments();
     const apiFeatures = new ApiFeatures(Product.find(), req.query).search().filter()
         .pagination(resultPerPage);
@@ -40,6 +40,33 @@ exports.getAllProducts = catchAsyncErrors(async (req, res) => {
         filteredProductsCount,
     })
 })
+
+// exports.getAllProducts = catchAsyncErrors(async (req, res, next) => {
+//     const resultPerPage = 8;
+//     const productsCount = await Product.countDocuments();
+
+//     const apiFeature = new ApiFeatures(Product.find(), req.query)
+//         .search()
+//         .filter();
+
+//     let productsQuery = await apiFeature.query; // Execute the query once
+
+//     let products = productsQuery; // Assign the result to a variable
+
+//     let filteredProductsCount = products.length;
+
+//     apiFeature.pagination(resultPerPage);
+
+//     products = await apiFeature.query; // Reassign the result with pagination applied
+
+//     res.status(200).json({
+//         success: true,
+//         products,
+//         productsCount,
+//         resultPerPage,
+//         filteredProductsCount,
+//     });
+// });
 
 
 // get single product details
@@ -138,7 +165,8 @@ exports.getProductReview = catchAsyncErrors(async (req, res, next) => {
 })
 
 // Delete Reviews
-exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
+exports.deleteReview = catchAsyncErrors(
+    async (req, res, next) => {
 
     const product = await Product.findById(req.query.productId);
 
@@ -160,4 +188,6 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
         success: true,
         message: "Product Deleted Successfully"
     })
-})
+}
+
+)
