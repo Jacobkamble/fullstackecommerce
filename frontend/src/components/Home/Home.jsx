@@ -5,7 +5,6 @@ import ProductCard from "./ProductCard.jsx";
 import { useGetAllProductsQuery } from "../../redux/services/product.js"
 import MetaData from "../layouts/MetaData.jsx";
 import Loader from "../layouts/Loader/Loader.jsx";
-import { toast } from "react-toastify";
 import { getErrorMessage } from "../../utils/getErrorMessage.js";
 const Home = () => {
     const { isLoading, data, isError, error } = useGetAllProductsQuery({ currentPage: 1, });
@@ -15,7 +14,7 @@ const Home = () => {
         }
     }, [isError])
 
-    console.log(error, "erfsfxcs")
+
     return (
         <>
             {isLoading ? (

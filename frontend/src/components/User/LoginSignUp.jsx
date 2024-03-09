@@ -8,9 +8,12 @@ import FaceOutlinedIcon from '@mui/icons-material/FaceOutlined';
 import { Link, useNavigate } from 'react-router-dom';
 import "./LoginSignUp.css"
 import { setAuth } from '../../redux/features/auth';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
-const LoginSignUp = ({ isAuthenticated, refetch }) => {
+const LoginSignUp = ({ refetch }) => {
+
+    const { isAuthenticated } = useSelector(state => state.auth)
     const dispatch = useDispatch()
     const navigate = useNavigate();
 
@@ -59,10 +62,12 @@ const LoginSignUp = ({ isAuthenticated, refetch }) => {
         const { token } = res;
         localStorage.setItem("token", token)
         if (token) {
-            dispatch(setAuth(true))
+            dispatch(setAuth(true));
+            refetch()
+            toast.success("Login Successfully")
         }
 
-        refetch()
+
 
     };
 
@@ -76,7 +81,11 @@ const LoginSignUp = ({ isAuthenticated, refetch }) => {
         myData.append("password", password);
         myData.append("avatar", avatar);
 
-        register(myData).unwrap();
+        const { success } = (await register(myData)).data;
+
+        if (success) {
+            toast.success("Account Created Successfully")
+        }
     }
 
     const switchTabs = (e, tab) => {

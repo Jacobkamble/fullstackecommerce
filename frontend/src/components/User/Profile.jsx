@@ -7,14 +7,13 @@ import Loader from "../layouts/Loader/Loader";
 
 const Profile = ({ user, loading }) => {
     const navigate = useNavigate()
-    // const { user, loading, isAuthenticated } = useSelector((state) => state.user);
     const { isAuthenticated } = useSelector(state => state.auth)
 
     useEffect(() => {
-        if (isAuthenticated === false) {
+        if (!isAuthenticated) {
             navigate("/login");
         }
-    }, [isAuthenticated]);
+    }, [isAuthenticated, navigate]);
     return (
         <Fragment>
             {loading ? (

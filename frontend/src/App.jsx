@@ -36,10 +36,6 @@ function App() {
   }, [data])
 
 
-
-
-
-
   useEffect(() => {
     WebFont.load({ google: { families: ["Roboto", "Droid Sans", "Chilanka"] } })
   }, [])
@@ -58,7 +54,7 @@ function App() {
           <Route path="/products/:keyword" element={<Products />} />
           <Route exact path='/search' element={<Search />} ></Route>
           <Route exact path='/account' element={<Profile user={data?.user} loading={isLoading} />} ></Route>
-          <Route exact path='/login' element={<LoginSignUp isAuthenticated={isAuthenticated} refetch={refetch} />}></Route>
+          <Route exact path='/login' element={<LoginSignUp refetch={refetch} />}></Route>
         </Routes>
 
 

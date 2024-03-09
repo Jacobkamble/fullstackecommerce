@@ -11,17 +11,15 @@ const cloudinary = require("cloudinary");
 exports.registerUser = catchAsyncErrors(
 
     async (req, res, next) => {
+        const file = req.files.avatar;
 
-
-        console.log(req.body.avatar, "avatar")
-
-        const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+        const myCloud = await cloudinary.v2.uploader.upload(file.tempFilePath, {
             folder: "avatars",
             width: 150,
             crop: "scale",
         });
 
-        console.log(myCloud.public_id, "public id")
+
 
         const { name, email, password } = req.body;
 

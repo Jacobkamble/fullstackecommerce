@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useLogoutQuery } from "../../../redux/services/user";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../../redux/features/auth";
+import { toast } from "react-toastify";
 
 
 const UserOptions = ({ user, refetch }) => {
@@ -64,6 +65,7 @@ const UserOptions = ({ user, refetch }) => {
         dispatch(setAuth(false))
         localStorage.removeItem("token")
         refetch()
+        toast.success("Logout Successfully")
     }
 
     return (

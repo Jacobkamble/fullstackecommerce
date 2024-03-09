@@ -21,7 +21,10 @@ app.use(express.json());
 app.use(cookieParser())
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(fileUpload());
+app.use(fileUpload({ useTempFiles: true }));
+// const fileupload = require('express-fileupload');
+
+// app.use(fileupload({ useTempFiles: true }))
 
 app.use("/api/v1", product);
 app.use("/api/v1", user);
