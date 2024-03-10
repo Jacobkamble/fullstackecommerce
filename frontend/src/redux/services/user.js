@@ -24,7 +24,6 @@ export const userApi = createApi({
                 {
                     method: `POST`,
                     url: `register`,
-                    // headers: { "Content-Type": "multipart/form-data" },
                     body: data,
                     // credentials: 'include'
                 })
@@ -44,6 +43,14 @@ export const userApi = createApi({
                 url: 'logout'
             })
 
+        }),
+        updateProfile: builder.mutation({
+            query: (data) => ({
+                method: `PUT`,
+                url: `me/update`,
+                body: data,
+                headers: { "Authorization": localStorage.getItem("token") }
+            })
         })
     })
 })
@@ -51,7 +58,7 @@ export const userApi = createApi({
 
 
 
-export const { useLoginMutation, useRegisterMutation, useLoadUserQuery, useLogoutQuery } = userApi
+export const { useLoginMutation, useRegisterMutation, useLoadUserQuery, useLogoutQuery, useUpdateProfileMutation } = userApi
 
 
 

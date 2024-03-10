@@ -19,6 +19,10 @@ import { useLoadUserQuery } from './redux/services/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuth } from './redux/features/auth';
 import Profile from './components/User/Profile';
+import ProtectedRoute from './components/Route/ProtectedRoute';
+import UpdateProfile from './components/User/UpdateProfile';
+
+
 
 
 
@@ -28,6 +32,9 @@ function App() {
   const { isAuthenticated } = useSelector(state => state.auth)
   const dispatch = useDispatch();
 
+  const selector = useSelector(state => state)
+
+  console.log(selector, "selector")
 
   useEffect(() => {
     if (data && data.success) {
@@ -44,7 +51,7 @@ function App() {
   return (
     <>
       <Router>
-
+        {/* <UpdateProfile /> */}
         <Header />
         {isAuthenticated && <   UserOptions user={data?.user} refetch={refetch} />}
         <Routes>
@@ -53,7 +60,12 @@ function App() {
           <Route exact path='/products' element={<Products />}></Route>
           <Route path="/products/:keyword" element={<Products />} />
           <Route exact path='/search' element={<Search />} ></Route>
-          <Route exact path='/account' element={<Profile user={data?.user} loading={isLoading} />} ></Route>
+          <Route exact path='/me/update' element={<ProtectedRoute loading={isLoading} user={data?.user}>
+            <UpdateProfile user={data?.user} refetch={refetch} />
+          </ProtectedRoute>} />
+          <Route exact path='/account' element={<ProtectedRoute loading={isLoading} user={data?.user}>
+            <Profile user={data?.user} loading={isLoading} />
+          </ProtectedRoute>} />
           <Route exact path='/login' element={<LoginSignUp refetch={refetch} />}></Route>
         </Routes>
 

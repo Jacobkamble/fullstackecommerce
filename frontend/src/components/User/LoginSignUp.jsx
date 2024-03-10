@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useLoginMutation, useRegisterMutation } from '../../redux/services/user';
 import { getErrorMessage } from '../../utils/getErrorMessage';
 import Loader from '../layouts/Loader/Loader';
+import FaceOutlinedIcon from '@mui/icons-material/FaceOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
-import FaceOutlinedIcon from '@mui/icons-material/FaceOutlined';
 import { Link, useNavigate } from 'react-router-dom';
 import "./LoginSignUp.css"
 import { setAuth } from '../../redux/features/auth';
