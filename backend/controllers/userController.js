@@ -13,7 +13,7 @@ exports.registerUser = catchAsyncErrors(
     async (req, res, next) => {
         const file = req.files.avatar;
 
-        const myCloud = await cloudinary.v2.uploader.upload(file.tempFilePath, {
+        const myCloud = await cloudinary.v2.uploader.upload((file.tempFilePath), {
             folder: "avatars",
             width: 150,
             crop: "scale",

@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cookieParser())
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(fileUpload({ useTempFiles: true }));
+app.use(fileUpload({ useTempFiles: true, tempFileDir: '/temp/' }));
 // const fileupload = require('express-fileupload');
 
 // app.use(fileupload({ useTempFiles: true }))
