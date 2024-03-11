@@ -51,14 +51,38 @@ export const userApi = createApi({
                 body: data,
                 headers: { "Authorization": localStorage.getItem("token") }
             })
+        }),
+        updatePassword: builder.mutation({
+            query: (data) => ({
+                method: "PUT",
+                url: "password/update",
+                body: data,
+                headers: { "Authorization": localStorage.getItem("token") }
+            })
+        }),
+        forgotPassword: builder.mutation({
+            query: (data) => ({
+                method: "POST",
+                url: "password/forgot",
+                body: data,
+            })
+        }),
+        resetPassword: builder.mutation({
+            query: ({ token, password, confirmPassword }) => ({
+
+                method: "PUT",
+                url: `password/reset/${token}`,
+                body: { password, confirmPassword }
+            })
         })
+
     })
 })
 
 
 
 
-export const { useLoginMutation, useRegisterMutation, useLoadUserQuery, useLogoutQuery, useUpdateProfileMutation } = userApi
+export const { useLoginMutation, useRegisterMutation, useLoadUserQuery, useLogoutQuery, useUpdateProfileMutation, useUpdatePasswordMutation, useForgotPasswordMutation, useResetPasswordMutation } = userApi
 
 
 

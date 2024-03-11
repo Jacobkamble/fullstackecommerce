@@ -1,33 +1,27 @@
-
 import React, { useState, useEffect } from "react";
 import "./UpdatePassword.css";
 import MetaData from '../layouts/MetaData';
 import Loader from '../layouts/Loader/Loader';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockIcon from '@mui/icons-material/Lock';
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
-import { useUpdatePasswordMutation } from "../../redux/services/user";
+import { useResetPasswordMutation } from "../../redux/services/user";
 import { getErrorMessage } from "../../utils/getErrorMessage";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-
-const UpdatePassword = () => {
-
+const ResetPassword = () => {
     const navigate = useNavigate();
+    const { token } = useParams();
 
-    const [updatePassword, { isLoading, isSuccess, error, isError }] = useUpdatePasswordMutation();
+    const [resetPassword, { isLoading, isSuccess, error, isError }] = useResetPasswordMutation()
 
-    const [oldPassword, setOldPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
+
+    const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("")
 
-    const updatePasswordSubmit = (e) => {
+    const resetPasswordSubmit = (e) => {
         e.preventDefault();
-
-        updatePassword({ oldPassword, newPassword, confirmPassword })
-
-
+        resetPassword({ token, password, confirmPassword });
     }
 
     useEffect(() => {
@@ -37,48 +31,33 @@ const UpdatePassword = () => {
         }
         if (isSuccess) {
             toast.success("Password Changed Successfully");
-            navigate("/account")
+            navigate("/login")
         }
     },
         [isError, error, isSuccess])
-
-
     return (
-
-
         <>
             {isLoading ? (
                 <Loader />
             ) : (
                 <>
                     <MetaData title="Change Password" />
-                    <div className="updatePasswordContainer">
-                        <div className="updatePasswordBox">
-                            <h2 className="updatePasswordHeading">Update Profile</h2>
+                    <div className="resetPasswordContainer">
+                        <div className="resetPasswordBox">
+                            <h2 className="resetPasswordHeading">Update Profile</h2>
 
                             <form
-                                className="updatePasswordForm"
-                                onSubmit={updatePasswordSubmit}
+                                className="resetPasswordForm"
+                                onSubmit={resetPasswordSubmit}
                             >
-                                <div className="loginPassword">
-                                    <VpnKeyIcon />
-                                    <input
-                                        type="password"
-                                        placeholder="Old Password"
-                                        required
-                                        value={oldPassword}
-                                        onChange={(e) => setOldPassword(e.target.value)}
-                                    />
-                                </div>
-
-                                <div className="loginPassword">
+                                <div>
                                     <LockOpenIcon />
                                     <input
                                         type="password"
                                         placeholder="New Password"
                                         required
-                                        value={newPassword}
-                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
                                     />
                                 </div>
                                 <div className="loginPassword">
@@ -93,8 +72,8 @@ const UpdatePassword = () => {
                                 </div>
                                 <input
                                     type="submit"
-                                    value="Change"
-                                    className="updatePasswordBtn"
+                                    value="Update"
+                                    className="resetPasswordBtn"
                                 />
                             </form>
                         </div>
@@ -102,8 +81,7 @@ const UpdatePassword = () => {
                 </>
             )}
         </>
-
     )
 }
 
-export default UpdatePassword
+export default ResetPassword

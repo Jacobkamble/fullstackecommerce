@@ -22,6 +22,8 @@ import Profile from './components/User/Profile';
 import ProtectedRoute from './components/Route/ProtectedRoute';
 import UpdateProfile from './components/User/UpdateProfile';
 import UpdatePassword from './components/User/UpdatePassword';
+import ForgotPassword from './components/User/ForgotPassword';
+import ResetPassword from './components/User/ResetPassword';
 
 
 
@@ -53,8 +55,7 @@ function App() {
   return (
     <>
       <Router>
-        {/* <UpdateProfile /> */}
-        <UpdatePassword />
+
         <Header />
         {isAuthenticated && <   UserOptions user={data?.user} refetch={refetch} />}
         <Routes>
@@ -63,12 +64,19 @@ function App() {
           <Route exact path='/products' element={<Products />}></Route>
           <Route path="/products/:keyword" element={<Products />} />
           <Route exact path='/search' element={<Search />} ></Route>
+          <Route exact path='/password/forgot' element={<ForgotPassword />}></Route>
+          <Route exact path='password/reset/:token' element={<ResetPassword />}></Route>
           <Route exact path='/me/update' element={<ProtectedRoute loading={isLoading} user={data?.user}>
             <UpdateProfile user={data?.user} refetch={refetch} />
           </ProtectedRoute>} />
           <Route exact path='/account' element={<ProtectedRoute loading={isLoading} user={data?.user}>
             <Profile user={data?.user} loading={isLoading} />
           </ProtectedRoute>} />
+          <Route exact path='/password/update' element={<ProtectedRoute loading={isLoading} user={data?.user}>
+            <UpdatePassword />
+          </ProtectedRoute>}>
+
+          </Route>
           <Route exact path='/login' element={<LoginSignUp refetch={refetch} />}></Route>
         </Routes>
 
