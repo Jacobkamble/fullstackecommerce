@@ -21,6 +21,8 @@ import { setAuth } from './redux/features/auth';
 import Profile from './components/User/Profile';
 import ProtectedRoute from './components/Route/ProtectedRoute';
 import UpdateProfile from './components/User/UpdateProfile';
+import UpdatePassword from './components/User/UpdatePassword';
+
 
 
 
@@ -32,9 +34,9 @@ function App() {
   const { isAuthenticated } = useSelector(state => state.auth)
   const dispatch = useDispatch();
 
-  const selector = useSelector(state => state)
+  // const selector = useSelector(state => state)
 
-  console.log(selector, "selector")
+  // console.log(selector, "selector")
 
   useEffect(() => {
     if (data && data.success) {
@@ -52,6 +54,7 @@ function App() {
     <>
       <Router>
         {/* <UpdateProfile /> */}
+        <UpdatePassword />
         <Header />
         {isAuthenticated && <   UserOptions user={data?.user} refetch={refetch} />}
         <Routes>
