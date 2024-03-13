@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useGetProductDetailsQuery } from '../../redux/services/product';
 import Loader from '../layouts/Loader/Loader';
@@ -9,19 +9,24 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, A11y, EffectCoverflow } from 'swiper/modules';
 import 'swiper/css';
 import { useEffect } from 'react';
-import { getErrorMessage } from '../../utils/getErrorMessage';
-import { toast } from 'react-toastify';
+import { showSuccessMessage } from '../../utils/successMessage';
 import ReviewCard from './ReviewCard';
+import { useDispatch } from 'react-redux';
+import { addItemsToCart } from '../../redux/features/cart';
+import { toast } from 'react-toastify';
+import { showErrorMessage } from '../../utils/showErrorMessage';
+
 
 
 const ProductDetails = () => {
 
     const { id } = useParams();
+    const dispatch = useDispatch()
     const { data, isLoading, isError, error } = useGetProductDetailsQuery(id);
 
     useEffect(() => {
         if (isError) {
-            getErrorMessage(error)
+            showErrorMessage(error)
         }
     }, [error])
 
@@ -32,6 +37,28 @@ const ProductDetails = () => {
         precision: 0.5,
     };
 
+    const [quantity, setQuantity] = useState(1);
+
+    const increaseQuantity = () => {
+        if (data && (data?.product?.stock <= quantity)) {
+            return
+        }
+        setQuantity(quantity + 1)
+    }
+
+    const decreaseQuantity = () => {
+        if (quantity <= 1) {
+            return
+        }
+        setQuantity(quantity - 1)
+    }
+
+    const addToCartHandler = () => {
+        dispatch(addItemsToCart(id, quantity));
+        showSuccessMessage("Item Added To Cart")
+    }
+
+
     return (
         <>
             {isLoading ? (
@@ -39,6 +66,7 @@ const ProductDetails = () => {
             ) : (
                 <>
                     <MetaData title={`${data?.product?.name} -- ECOMMERCE`} />
+
                     <div className="ProductDetails">
                         <div >
 
@@ -98,18 +126,18 @@ const ProductDetails = () => {
                                 <div className="detailsBlock-3-1">
                                     <div className="detailsBlock-3-1-1">
                                         <button
-                                        //  onClick={decreaseQuantity}
+                                            onClick={decreaseQuantity}
                                         >-</button>
                                         <input readOnly type="number"
-                                        // value={quantity} 
+                                            value={quantity}
                                         />
                                         <button
-                                        // onClick={increaseQuantity}
+                                            onClick={increaseQuantity}
                                         >+</button>
                                     </div>
                                     <button
                                         disabled={data?.product.Stock < 1 ? true : false}
-                                    // onClick={addToCartHandler}
+                                        onClick={addToCartHandler}
                                     >
                                         Add to Cart
                                     </button>

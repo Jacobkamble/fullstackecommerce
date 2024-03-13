@@ -5,12 +5,12 @@ import ProductCard from "./ProductCard.jsx";
 import { useGetAllProductsQuery } from "../../redux/services/product.js"
 import MetaData from "../layouts/MetaData.jsx";
 import Loader from "../layouts/Loader/Loader.jsx";
-import { getErrorMessage } from "../../utils/getErrorMessage.js";
+import { showErrorMessage } from "../../utils/showErrorMessage.js";
 const Home = () => {
     const { isLoading, data, isError, error } = useGetAllProductsQuery({ currentPage: 1, });
     useEffect(() => {
         if (isError) {
-            getErrorMessage(error)
+            showErrorMessage(error)
         }
     }, [isError])
 

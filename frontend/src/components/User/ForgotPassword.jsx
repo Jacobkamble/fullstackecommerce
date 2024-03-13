@@ -1,15 +1,12 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./ForgotPassword.css";
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import Loader from "../layouts/Loader/Loader";
 import MetaData from '../layouts/MetaData';
 import { useForgotPasswordMutation } from "../../redux/services/user";
-import { getErrorMessage } from "../../utils/getErrorMessage";
-import { toast } from "react-toastify";
+import { showErrorMessage } from "../../utils/showErrorMessage";
 import { useNavigate } from "react-router-dom";
-
-
-
+import { showSuccessMessage } from "../../utils/successMessage";
 
 const ForgotPassword = () => {
 
@@ -26,10 +23,10 @@ const ForgotPassword = () => {
 
     useEffect(() => {
         if (isError) {
-            getErrorMessage(error)
+            showErrorMessage(error)
         }
         if (isSuccess) {
-            toast.success("Email sent successfully.");
+            showSuccessMessage("Email sent successfully.")
             navigate("/")
         }
     }, [isError, error, isSuccess])

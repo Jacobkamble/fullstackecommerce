@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 
 
-export const getErrorMessage = (error) => {
+export const showErrorMessage = (error) => {
     if (error && error?.data?.message) {
         toast.error(error.data.message);
     }
@@ -10,3 +10,5 @@ export const getErrorMessage = (error) => {
     }
 
 };
+
+

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { useLoginMutation, useRegisterMutation } from '../../redux/services/user';
-import { getErrorMessage } from '../../utils/getErrorMessage';
+import { useLoadUserQuery, useLoginMutation, useRegisterMutation } from '../../redux/services/user';
+import { showErrorMessage } from '../../utils/showErrorMessage';
 import Loader from '../layouts/Loader/Loader';
 import FaceOutlinedIcon from '@mui/icons-material/FaceOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
@@ -9,9 +9,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import "./LoginSignUp.css"
 import { setAuth } from '../../redux/features/auth';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { showSuccessMessage } from '../../utils/successMessage';
 
-const LoginSignUp = ({ refetch }) => {
+const LoginSignUp = () => {
+
+    const { refetch, isSuccess } = useLoadUserQuery();
 
     const { isAuthenticated } = useSelector(state => state.auth)
     const dispatch = useDispatch()
@@ -30,8 +32,8 @@ const LoginSignUp = ({ refetch }) => {
         password: "",
     });
 
-    const [register, { isLoading: registerLoading, error: registerError, isError: isRegisterError }] = useRegisterMutation();
-    const [login, { isLoading: loginLoading, error: loginError, isError: isLoginError }] = useLoginMutation();
+    const [register, { isLoading: registerLoading, error: registerError, isError: isRegisterError, isSuccess: registerSuccess }] = useRegisterMutation();
+    const [login, { isLoading: loginLoading, error: loginError, isError: isLoginError, isSuccess: loginSuccess }] = useLoginMutation();
 
 
     const { name, email, password } = user;
@@ -64,11 +66,7 @@ const LoginSignUp = ({ refetch }) => {
         if (token) {
             dispatch(setAuth(true));
             refetch()
-            toast.success("Login Successfully")
         }
-
-
-
     };
 
     const registerSubmit = async (e) => {
@@ -80,12 +78,7 @@ const LoginSignUp = ({ refetch }) => {
         myData.append("email", email);
         myData.append("password", password);
         myData.append("avatar", avatar);
-
-        const { success } = (await register(myData)).data;
-
-        if (success) {
-            toast.success("Account Created Successfully")
-        }
+        register(myData)
     }
 
     const switchTabs = (e, tab) => {
@@ -109,16 +102,22 @@ const LoginSignUp = ({ refetch }) => {
 
     useEffect(() => {
         if (isLoginError) {
-            getErrorMessage(loginError)
+            showErrorMessage(loginError)
         }
         if (isRegisterError) {
-            getErrorMessage(registerError)
+            showErrorMessage(registerError)
         }
         if (isAuthenticated) {
             navigate(redirect)
         }
+        if (loginSuccess) {
+            showSuccessMessage("Login Successfully")
+        }
+        if (registerSuccess) {
+            showSuccessMessage("Account Created Successfully")
+        }
 
-    }, [isLoginError, isRegisterError, isAuthenticated])
+    }, [isLoginError, isRegisterError, isAuthenticated, loginSuccess, registerSuccess])
 
 
     return (

@@ -5,9 +5,9 @@ import Loader from '../layouts/Loader/Loader';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockIcon from '@mui/icons-material/Lock';
 import { useResetPasswordMutation } from "../../redux/services/user";
-import { getErrorMessage } from "../../utils/getErrorMessage";
-import { toast } from "react-toastify";
+import { showErrorMessage } from "../../utils/showErrorMessage";
 import { useNavigate, useParams } from "react-router-dom";
+import { showSuccessMessage } from "../../utils/successMessage";
 
 const ResetPassword = () => {
     const navigate = useNavigate();
@@ -27,10 +27,10 @@ const ResetPassword = () => {
     useEffect(() => {
 
         if (isError) {
-            getErrorMessage(error)
+            showErrorMessage(error)
         }
         if (isSuccess) {
-            toast.success("Password Changed Successfully");
+            showSuccessMessage("Password Changed Successfully")
             navigate("/login")
         }
     },

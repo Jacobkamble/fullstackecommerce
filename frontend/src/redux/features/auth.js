@@ -1,7 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
-
-
-
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = { isAuthenticated: false }
 
@@ -12,7 +9,6 @@ const auth = createSlice({
         setAuth(state, { payload }) {
             state.isAuthenticated = payload
         },
-
 
     },
 })

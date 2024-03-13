@@ -7,8 +7,8 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockIcon from '@mui/icons-material/Lock';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import { useUpdatePasswordMutation } from "../../redux/services/user";
-import { getErrorMessage } from "../../utils/getErrorMessage";
-import { toast } from "react-toastify";
+import { showErrorMessage } from "../../utils/showErrorMessage";
+import { showSuccessMessage } from "../../utils/successMessage";
 import { useNavigate } from "react-router-dom";
 
 
@@ -33,10 +33,10 @@ const UpdatePassword = () => {
     useEffect(() => {
 
         if (isError) {
-            getErrorMessage(error)
+            showErrorMessage(error)
         }
         if (isSuccess) {
-            toast.success("Password Changed Successfully");
+            showSuccessMessage("Password Changed Successfully")
             navigate("/account")
         }
     },

@@ -4,12 +4,14 @@ import Loader from '../layouts/Loader/Loader';
 import "./UpdateProfile.css";
 import FaceOutlinedIcon from '@mui/icons-material/FaceOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import { useUpdateProfileMutation } from '../../redux/services/user';
-import { getErrorMessage } from '../../utils/getErrorMessage';
-import { toast } from 'react-toastify';
+import { useLoadUserQuery, useUpdateProfileMutation } from '../../redux/services/user';
+import { showErrorMessage } from '../../utils/showErrorMessage';
 import { useNavigate } from 'react-router-dom';
+import { showSuccessMessage } from '../../utils/successMessage';
 
-const UpdateProfile = ({ user, refetch }) => {
+const UpdateProfile = ({ user }) => {
+
+    const { data, refetch } = useLoadUserQuery();
 
     const navigate = useNavigate()
 
@@ -47,27 +49,23 @@ const UpdateProfile = ({ user, refetch }) => {
     };
 
     useEffect(() => {
-        if (user) {
-            setName(user.name);
-            setEmail(user.email);
-            setAvatarPreview(user.avatar.url);
+        if (data?.user) {
+            setName(data?.user.name);
+            setEmail(data?.user.email);
+            setAvatarPreview(data?.user.avatar.url);
         }
 
         if (isError) {
-            getErrorMessage(error)
+            showErrorMessage(error)
         }
 
         if (isSuccess) {
-            toast.success("Profile Updated Successfully");
+            showSuccessMessage("Profile Updated Successfully")
             refetch()
             navigate("/account");
-
-            // dispatch({
-            //     type: UPDATE_PROFILE_RESET,
-            // });
         }
 
-    }, [user, isError, error, isSuccess]);
+    }, [data, isError, error, isSuccess]);
 
     return (
         <>

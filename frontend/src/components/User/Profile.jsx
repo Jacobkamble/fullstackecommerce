@@ -4,41 +4,44 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Profile.css";
 import MetaData from "../layouts/MetaData";
 import Loader from "../layouts/Loader/Loader";
+import { useLoadUserQuery } from "../../redux/services/user";
 
-const Profile = ({ user, loading }) => {
+const Profile = () => {
     const navigate = useNavigate()
     const { isAuthenticated } = useSelector(state => state.auth)
+    const { data, isLoading } = useLoadUserQuery();
 
     useEffect(() => {
         if (!isAuthenticated) {
             navigate("/login");
         }
     }, [isAuthenticated, navigate]);
+
     return (
-        <Fragment>
-            {loading ? (
+        <>
+            {isLoading ? (
                 <Loader />
             ) : (
-                <Fragment>
-                    <MetaData title={`${user.name}'s Profile`} />
+                <>
+                    <MetaData title={`${data?.user.name}'s Profile`} />
                     <div className="profileContainer">
                         <div>
                             <h1>My Profile</h1>
-                            <img src={user.avatar.url} alt={user.name} />
+                            <img src={data?.user.avatar.url} alt={data?.user.name} />
                             <Link to="/me/update">Edit Profile</Link>
                         </div>
                         <div>
                             <div>
                                 <h4>Full Name</h4>
-                                <p>{user.name}</p>
+                                <p>{data?.user.name}</p>
                             </div>
                             <div>
                                 <h4>Email</h4>
-                                <p>{user.email}</p>
+                                <p>{data?.user.email}</p>
                             </div>
                             <div>
                                 <h4>Joined On</h4>
-                                <p>{String(user.createdAt).substr(0, 10)}</p>
+                                <p>{String(data?.user.createdAt).substr(0, 10)}</p>
                             </div>
 
                             <div>
@@ -47,9 +50,9 @@ const Profile = ({ user, loading }) => {
                             </div>
                         </div>
                     </div>
-                </Fragment>
+                </>
             )}
-        </Fragment>
+        </>
     );
 };
 

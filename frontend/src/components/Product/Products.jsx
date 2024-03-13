@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useGetAllProductsQuery } from '../../redux/services/product'
 import Loader from '../layouts/Loader/Loader'
-import { getErrorMessage } from '../../utils/getErrorMessage'
-import { toast } from 'react-toastify'
+import { showErrorMessage } from '../../utils/showErrorMessage'
 import { useParams } from 'react-router-dom'
 import MetaData from '../layouts/MetaData'
 import ProductCard from '../Home/ProductCard'
@@ -45,7 +44,7 @@ const Products = () => {
 
     useEffect(() => {
         if (error) {
-            getErrorMessage(error)
+            showErrorMessage(error)
         }
     }, [error])
 

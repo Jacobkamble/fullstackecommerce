@@ -8,14 +8,16 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from "react-router-dom";
-import { useLogoutQuery } from "../../../redux/services/user";
+import { useLoadUserQuery, useLogoutQuery } from "../../../redux/services/user";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../../redux/features/auth";
 import { toast } from "react-toastify";
+import { showSuccessMessage } from "../../../utils/successMessage";
 
 
-const UserOptions = ({ user, refetch }) => {
+const UserOptions = () => {
 
+    const { refetch, data: userData } = useLoadUserQuery()
 
     const [skip, setSkip] = useState(true)
     const [open, setOpen] = useState(false);
@@ -40,7 +42,7 @@ const UserOptions = ({ user, refetch }) => {
         { icon: <ExitToAppIcon />, name: "Logout", func: logoutUser },
     ];
 
-    if (user?.role === "admin") {
+    if (userData?.user?.role === "admin") {
         options.unshift({
             icon: <DashboardIcon />,
             name: "Dashboard",
@@ -65,7 +67,7 @@ const UserOptions = ({ user, refetch }) => {
         dispatch(setAuth(false))
         localStorage.removeItem("token")
         refetch()
-        toast.success("Logout Successfully")
+        showSuccessMessage("Logout Successfully")
     }
 
     return (
@@ -82,7 +84,7 @@ const UserOptions = ({ user, refetch }) => {
                 icon={
                     <img
                         className="speedDialIcon"
-                        src={user?.avatar.url ? user?.avatar.url : "/Profile.png"}
+                        src={userData?.user?.avatar.url ? userData?.user?.avatar.url : "/Profile.png"}
                         // src={"/Profile.png"}
                         alt="Profile"
                     />
