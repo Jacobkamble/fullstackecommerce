@@ -1,10 +1,11 @@
 
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import WebFont from 'webfontloader';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import WebFont from 'webfontloader';
+
 
 import './App.css';
 import Header from './components/layouts/Header/Header';
@@ -22,9 +23,14 @@ import UpdatePassword from './components/User/UpdatePassword';
 import ForgotPassword from './components/User/ForgotPassword';
 import ResetPassword from './components/User/ResetPassword';
 import Cart from './components/Cart/Cart';
+import Shipping from "./components/Cart/Shipping";
+import ConfirmOrder from './components/Cart/ConfirmOrder';
 
 import { useLoadUserQuery } from './redux/services/user';
 import { setAuth } from './redux/features/auth';
+
+
+
 
 
 function App() {
@@ -48,7 +54,9 @@ function App() {
 
   return (
     <>
+
       <Router>
+
 
         <Header />
         {isAuthenticated && <UserOptions />}
@@ -61,6 +69,7 @@ function App() {
           <Route exact path='/password/forgot' element={<ForgotPassword />}></Route>
           <Route exact path='password/reset/:token' element={<ResetPassword />}></Route>
           <Route exact path="/cart" element={<Cart />} ></Route>
+          <Route exact path='/login' element={<LoginSignUp />}></Route>
 
           <Route exact path='/me/update' element={
             <ProtectedRoute >
@@ -74,15 +83,27 @@ function App() {
             <ProtectedRoute >
               <UpdatePassword />
             </ProtectedRoute>}>
+          </Route>
+
+          <Route exact path='/shipping' element={
+            <ProtectedRoute>
+              <Shipping />
+            </ProtectedRoute>}>
+          </Route>
+
+          <Route exact path='/order/confirm' element={
+            <ProtectedRoute>
+              <ConfirmOrder />
+            </ProtectedRoute>}>
 
           </Route>
-          <Route exact path='/login' element={<LoginSignUp />}></Route>
+
         </Routes>
 
 
         <Footer />
         <ToastContainer position='top-right' />
-      </Router>
+      </Router >
 
     </>
   )

@@ -9,14 +9,13 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from "react-router-dom";
 import { useLoadUserQuery, useLogoutQuery } from "../../../redux/services/user";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAuth } from "../../../redux/features/auth";
-import { toast } from "react-toastify";
 import { showSuccessMessage } from "../../../utils/successMessage";
 
 
 const UserOptions = () => {
-
+    const { cartItems } = useSelector((state) => state.cart);
     const { refetch, data: userData } = useLoadUserQuery()
 
     const [skip, setSkip] = useState(true)
@@ -32,11 +31,11 @@ const UserOptions = () => {
         {
             icon: (
                 <ShoppingCartIcon
-                // style={{ color: cartItems.length > 0 ? "tomato" : "unset" }}
+                    style={{ color: cartItems.length > 0 ? "tomato" : "unset" }}
                 />
             ),
-            // name: `Cart(${cartItems.length})`,
-            name: "Cart",
+            name: `Cart(${cartItems.length})`,
+            // name: "Cart",
             func: cart,
         },
         { icon: <ExitToAppIcon />, name: "Logout", func: logoutUser },

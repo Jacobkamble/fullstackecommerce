@@ -5,7 +5,7 @@ import Loader from '../layouts/Loader/Loader';
 import FaceOutlinedIcon from '@mui/icons-material/FaceOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import "./LoginSignUp.css"
 import { setAuth } from '../../redux/features/auth';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +14,8 @@ import { showSuccessMessage } from '../../utils/successMessage';
 const LoginSignUp = () => {
 
     const { refetch, isSuccess } = useLoadUserQuery();
+
+    const location = useLocation()
 
     const { isAuthenticated } = useSelector(state => state.auth)
     const dispatch = useDispatch()
@@ -117,7 +119,7 @@ const LoginSignUp = () => {
             showSuccessMessage("Account Created Successfully")
         }
 
-    }, [isLoginError, isRegisterError, isAuthenticated, loginSuccess, registerSuccess])
+    }, [isLoginError, isRegisterError, isAuthenticated, loginSuccess, registerSuccess, redirect, location, navigate])
 
 
     return (

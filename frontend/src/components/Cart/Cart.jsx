@@ -6,11 +6,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { addItemsToCart, removeCartItem } from "../../redux/features/cart";
 import { Typography } from "@mui/material";
 import CartItemCart from "./CartItemCart";
+import MetaData from "../layouts/MetaData";
 
 
 const Cart = () => {
 
     const dispatch = useDispatch();
+    const { isAuthenticated } = useSelector(state => state.auth)
+
     const { cartItems } = useSelector((state) => state.cart);
 
     const navigate = useNavigate();
@@ -35,11 +38,17 @@ const Cart = () => {
     };
 
     const checkoutHandler = () => {
-        navigate("/login?redirect=shipping");
+
+        if (isAuthenticated) {
+            navigate("/shipping");
+        } else {
+            navigate("/login", { state: { redirect: "/shipping" } });
+        }
     };
 
     return (
         <>
+            <MetaData title={"Shoping Cart"} />
             {cartItems.length === 0 ? (
                 <div className="emptyCart">
                     <RemoveShoppingCartIcon />

@@ -118,10 +118,12 @@ const Header = () => {
                                 </Link>
 
                             </Tooltip>
-                            <Tooltip title="Open settings">
-                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 1 }}>
-                                    <AddShoppingCartIcon />
-                                </IconButton>
+                            <Tooltip title="Cart">
+                                <Link to={"/cart"}>
+                                    <IconButton sx={{ p: 1 }}>
+                                        <AddShoppingCartIcon />
+                                    </IconButton>
+                                </Link>
                             </Tooltip>
                             <Tooltip title="User">
                                 <Link to={"/login"}>
