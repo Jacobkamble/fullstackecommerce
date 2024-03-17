@@ -17,6 +17,8 @@
     "@mui/material": "^5.15.11",
     "@redux-devtools/extension": "^3.3.0",
     "@reduxjs/toolkit": "^2.2.1",
+    "@stripe/react-stripe-js": "^2.6.0",
+    "@stripe/stripe-js": "^3.0.8",
     "axios": "^1.6.7",
     "country-state-city": "^3.2.1",
     "overlay-navbar": "^1.2.3",

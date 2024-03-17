@@ -6,6 +6,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import WebFont from 'webfontloader';
 
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
 
 import './App.css';
 import Header from './components/layouts/Header/Header';
@@ -25,9 +28,11 @@ import ResetPassword from './components/User/ResetPassword';
 import Cart from './components/Cart/Cart';
 import Shipping from "./components/Cart/Shipping";
 import ConfirmOrder from './components/Cart/ConfirmOrder';
+import Payment from './components/Cart/Payment';
 
 import { useLoadUserQuery } from './redux/services/user';
 import { setAuth } from './redux/features/auth';
+
 
 
 
@@ -95,6 +100,20 @@ function App() {
             <ProtectedRoute>
               <ConfirmOrder />
             </ProtectedRoute>}>
+
+
+
+
+
+
+          </Route>
+          <Route exact path='/process/payment' element={
+            <Elements stripe={loadStripe("pk_live_51Ou7PBSG0mIiZLsoXmGCrbF2Tr2Xki25WXqXVtrafiY0or6bTbSszeAOLNr5ZXfStcSi3GKQCZOzYK9gZFOxarK700yWIWEAg1")}>
+
+              <ProtectedRoute>
+                <Payment />
+              </ProtectedRoute>
+            </Elements>}>
 
           </Route>
 
