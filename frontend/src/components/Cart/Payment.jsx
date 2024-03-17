@@ -1,10 +1,7 @@
 import React, { Fragment, useEffect, useRef } from "react";
 import CheckoutSteps from "../Cart/CheckoutSteps";
 import { useSelector, useDispatch } from "react-redux";
-// import MetaData from "../layout/MetaData";
-// import { Typography } from "@material-ui/core";
 
-// import { useAlert } from "react-alert";
 import {
     CardNumberElement,
     CardCvcElement,
@@ -18,7 +15,7 @@ import "./Payment.css";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import EventIcon from "@mui/icons-material/Event";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
-// import { createOrder, clearErrors } from "../../actions/orderAction";
+
 import { useLoadUserQuery } from "../../redux/services/user";
 import MetaData from "../layouts/MetaData";
 import { Typography } from "@mui/material";
@@ -26,15 +23,15 @@ import { Typography } from "@mui/material";
 const Payment = ({ history }) => {
     const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
 
-    const dispatch = useDispatch();
-    // const alert = useAlert();
+
+
     const stripe = useStripe();
     const elements = useElements();
     const payBtn = useRef(null);
 
     const { shippingInfo, cartItems } = useSelector((state) => state.cart);
     const { data: userData } = useLoadUserQuery()
-    // const { error } = useSelector((state) => state.newOrder);
+
 
     const paymentData = {
         amount: Math.round(orderInfo.totalPrice * 100),
