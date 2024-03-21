@@ -21,12 +21,15 @@ import { useLoadUserQuery } from "../../redux/services/user";
 import MetaData from "../layouts/MetaData";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useCreateOrderMutation } from "../../redux/services/order";
 
 
 
 const Payment = () => {
     const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
     const navigate = useNavigate();
+
+    const [createOrder, { }] = useCreateOrderMutation()
 
     const stripe = useStripe();
     const elements = useElements();
@@ -76,6 +79,7 @@ const Payment = () => {
 
             console.log("succcess")
             // dispatch(createOrder(order));
+            await createOrder(order);
 
             navigate("/success");
 

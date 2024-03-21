@@ -13,7 +13,7 @@ const ProtectedRoute = ({ children, loading, user, isAdmin }) => {
     return (
         <>
             {
-                !isLoading && (!isAuthenticated ? <Navigate to={"/login"} /> : isAdmin === true && data?.user?.role !== "admin" ? <Navigate to={"/login"} /> : children)
+                !isLoading && (isAuthenticated === false ? <Navigate to={"/login"} /> : isAdmin === true && data?.user?.role !== "admin" ? <Navigate to={"/login"} /> : children)
             }
 
         </>

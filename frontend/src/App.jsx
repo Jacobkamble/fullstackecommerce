@@ -33,6 +33,8 @@ import Payment from './components/Cart/Payment';
 import { useLoadUserQuery } from './redux/services/user';
 import { setAuth } from './redux/features/auth';
 import { loadApiKey } from './utils/loadApiKey';
+import OrderSuccess from './components/Cart/OrderSuccess';
+import MyOrders from './components/Order/MyOrders';
 
 
 
@@ -105,12 +107,6 @@ function App() {
             <ProtectedRoute>
               <ConfirmOrder />
             </ProtectedRoute>}>
-
-
-
-
-
-
           </Route>
 
           {stripeApiKey && <Route exact path='/process/payment' element={
@@ -121,6 +117,18 @@ function App() {
             </Elements>}>
 
           </Route>}
+
+          <Route exact path='/success' element={
+            <ProtectedRoute>
+              <OrderSuccess />
+            </ProtectedRoute>}>
+          </Route>
+
+          <Route exact path='/orders' element={
+            <ProtectedRoute>
+              <MyOrders />
+            </ProtectedRoute>}>
+          </Route>
 
 
         </Routes>
