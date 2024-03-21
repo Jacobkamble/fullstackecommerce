@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -32,6 +32,7 @@ import Payment from './components/Cart/Payment';
 
 import { useLoadUserQuery } from './redux/services/user';
 import { setAuth } from './redux/features/auth';
+import { loadApiKey } from './utils/loadApiKey';
 
 
 
@@ -40,6 +41,10 @@ import { setAuth } from './redux/features/auth';
 
 function App() {
   const { isSuccess } = useLoadUserQuery();
+
+  const [stripeApiKey, setStripeApiKey] = useState("")
+
+  loadApiKey().then((res) => setStripeApiKey(res)).catch((err) => console.log(err));
 
   const { isAuthenticated } = useSelector(state => state.auth)
   const dispatch = useDispatch();
@@ -107,15 +112,16 @@ function App() {
 
 
           </Route>
-          <Route exact path='/process/payment' element={
-            <Elements stripe={loadStripe("pk_live_51Ou7PBSG0mIiZLsoXmGCrbF2Tr2Xki25WXqXVtrafiY0or6bTbSszeAOLNr5ZXfStcSi3GKQCZOzYK9gZFOxarK700yWIWEAg1")}>
 
+          {stripeApiKey && <Route exact path='/process/payment' element={
+            <Elements stripe={loadStripe(stripeApiKey)}>
               <ProtectedRoute>
                 <Payment />
               </ProtectedRoute>
             </Elements>}>
 
-          </Route>
+          </Route>}
+
 
         </Routes>
 

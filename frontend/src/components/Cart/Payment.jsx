@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useRef } from "react";
 import CheckoutSteps from "../Cart/CheckoutSteps";
 import { useSelector, useDispatch } from "react-redux";
+import { showErrorMessage } from '../../utils/showErrorMessage';
 
 import {
     CardNumberElement,
@@ -19,11 +20,13 @@ import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import { useLoadUserQuery } from "../../redux/services/user";
 import MetaData from "../layouts/MetaData";
 import { Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-const Payment = ({ history }) => {
+
+
+const Payment = () => {
     const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
-
-
+    const navigate = useNavigate();
 
     const stripe = useStripe();
     const elements = useElements();
@@ -65,50 +68,65 @@ const Payment = ({ history }) => {
             );
 
             const client_secret = data.client_secret;
+            console.log(client_secret, ":dkwdhgf")
+            order.paymentInfo = {
+                id: "sjjs",
+                status: "success",
+            };
 
-            if (!stripe || !elements) return;
+            console.log("succcess")
+            // dispatch(createOrder(order));
 
-            const result = await stripe.confirmCardPayment(client_secret, {
-                payment_method: {
-                    card: elements.getElement(CardNumberElement),
-                    billing_details: {
-                        name: userData.user.name,
-                        email: userData.user.email,
-                        address: {
-                            line1: shippingInfo.address,
-                            city: shippingInfo.city,
-                            state: shippingInfo.state,
-                            postal_code: shippingInfo.pinCode,
-                            country: shippingInfo.country,
-                        },
-                    },
-                },
-            });
+            navigate("/success");
 
-            if (result.error) {
-                payBtn.current.disabled = false;
+            // if (!stripe || !elements) return;
 
-                alert(result.error.message)
-                // alert.error(result.error.message);
-            } else {
-                if (result.paymentIntent.status === "succeeded") {
-                    order.paymentInfo = {
-                        id: result.paymentIntent.id,
-                        status: result.paymentIntent.status,
-                    };
+            // const result = await stripe.confirmCardPayment(client_secret,
+            //     {
+            //         payment_method: {
+            //             card: elements.getElement(CardNumberElement),
+            //             billing_details: {
+            //                 name: userData.user.name,
+            //                 email: userData.user.email,
+            //                 address: {
+            //                     line1: shippingInfo.address,
+            //                     city: shippingInfo.city,
+            //                     state: shippingInfo.state,
+            //                     postal_code: shippingInfo.pinCode,
+            //                     country: shippingInfo.country,
+            //                 },
+            //             },
+            //         },
+            //     }
+            // );
 
-                    console.log("succcess")
-                    // dispatch(createOrder(order));
 
-                    history.push("/success");
-                } else {
-                    alert("There's some issue while processing payment")
-                    // alert.error("There's some issue while processing payment ");
-                }
-            }
+
+
+
+            // if (result.error) {
+            //     payBtn.current.disabled = false;
+            //     showErrorMessage(result.error.message)
+            // } else {
+            //     if (result.paymentIntent.status === "succeeded") {
+            //         order.paymentInfo = {
+            //             id: result.paymentIntent.id,
+            //             status: result.paymentIntent.status,
+            //         };
+
+            //         console.log("succcess")
+            //         // dispatch(createOrder(order));
+
+            //         navigate("/success");
+            //     } else {
+            //         // alert("There's some issue while processing payment")
+            //         showErrorMessage("There's some issue while processing payment")
+            //         // alert.error("There's some issue while processing payment ");
+            //     }
+            // }
         } catch (error) {
             payBtn.current.disabled = false;
-            alert.error(error.response.data.message);
+            // alert.error(error.response.data.message);
         }
     };
 

@@ -4,6 +4,7 @@ const errorMiddleware = require("./middleware/error");
 const cors = require('cors');
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
+const dotenv = require("dotenv");
 
 const product = require("./routes/productRoute");
 const user = require("./routes/userRoute");
@@ -14,6 +15,8 @@ const payment = require("./routes/paymentRoute");
 
 
 const app = express();
+
+dotenv.config({ path: "backend/config/config.env" });
 
 app.use(cors({ credentials: true, origin: ["http://localhost:5173"] }));
 
