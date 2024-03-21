@@ -20,8 +20,16 @@ export const orderApi = createApi({
                 url: `orders/me`,
                 headers: { "Authorization": localStorage.getItem("token") },
             })
+        }),
+
+        orderDetails: builder.query({
+            query: (id) => ({
+                method: "GET",
+                url: `order/${id}`,
+                headers: { "Authorization": localStorage.getItem("token") },
+            })
         })
     })
 })
 
-export const { useCreateOrderMutation, useMyOrdersQuery } = orderApi
+export const { useCreateOrderMutation, useMyOrdersQuery, useOrderDetailsQuery } = orderApi

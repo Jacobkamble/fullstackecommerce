@@ -35,6 +35,7 @@ import { setAuth } from './redux/features/auth';
 import { loadApiKey } from './utils/loadApiKey';
 import OrderSuccess from './components/Cart/OrderSuccess';
 import MyOrders from './components/Order/MyOrders';
+import OrderDetails from './components/Order/OrderDetails';
 
 
 
@@ -46,7 +47,7 @@ function App() {
 
   const [stripeApiKey, setStripeApiKey] = useState("")
 
-  loadApiKey().then((res) => setStripeApiKey(res)).catch((err) => console.log(err));
+
 
   const { isAuthenticated } = useSelector(state => state.auth)
   const dispatch = useDispatch();
@@ -59,7 +60,9 @@ function App() {
 
 
   useEffect(() => {
-    WebFont.load({ google: { families: ["Roboto", "Droid Sans", "Chilanka"] } })
+    WebFont.load({ google: { families: ["Roboto", "Droid Sans", "Chilanka"] } });
+
+    loadApiKey().then((res) => setStripeApiKey(res)).catch((err) => console.log(err));
   }, [])
 
 
@@ -106,6 +109,12 @@ function App() {
           <Route exact path='/order/confirm' element={
             <ProtectedRoute>
               <ConfirmOrder />
+            </ProtectedRoute>}>
+          </Route>
+
+          <Route exact path='/order/:id' element={
+            <ProtectedRoute>
+              <OrderDetails />
             </ProtectedRoute>}>
           </Route>
 
