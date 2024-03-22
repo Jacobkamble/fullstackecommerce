@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useGetProductDetailsQuery } from '../../redux/services/product';
+import { useCreateReviewMutation, useGetProductDetailsQuery } from '../../redux/services/product';
 import Loader from '../layouts/Loader/Loader';
 import MetaData from '../layouts/MetaData';
 import Rating from '@mui/material/Rating';
@@ -15,6 +15,8 @@ import { useDispatch } from 'react-redux';
 import { addItemsToCart } from '../../redux/features/cart';
 import { toast } from 'react-toastify';
 import { showErrorMessage } from '../../utils/showErrorMessage';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+
 
 
 
@@ -22,7 +24,14 @@ const ProductDetails = () => {
 
     const { id } = useParams();
     const dispatch = useDispatch()
+    const [open, setOpen] = useState(false);
+
+    const [rating, setRating] = useState(0);
+    const [comment, setComment] = useState("");
+
     const { data, isLoading, isError, error } = useGetProductDetailsQuery(id);
+
+    const [createReview, { isError: isReviewError, isLoading: isReviewLoading, isSuccess: isReviewSuccess, error: revieError }] = useCreateReviewMutation()
 
     useEffect(() => {
         if (isError) {
@@ -58,6 +67,15 @@ const ProductDetails = () => {
         showSuccessMessage("Item Added To Cart")
     }
 
+    const submitReviewToggle = () => {
+        setOpen(!open);
+    }
+
+    const reviewSubmitHandler = () => {
+        const obj = { productId: id, rating, comment }
+        createReview(obj);
+        setOpen(false);
+    }
 
     return (
         <>
@@ -156,7 +174,7 @@ const ProductDetails = () => {
                             </div>
 
                             <button
-                                // onClick={submitReviewToggle} 
+                                onClick={submitReviewToggle}
                                 className="submitReview">
                                 Submit Review
                             </button>
@@ -165,7 +183,7 @@ const ProductDetails = () => {
 
                     <h3 className="reviewsHeading">REVIEWS</h3>
 
-                    {/* <Dialog
+                    <Dialog
                         aria-labelledby="simple-dialog-title"
                         open={open}
                         onClose={submitReviewToggle}
@@ -194,7 +212,7 @@ const ProductDetails = () => {
                                 Submit
                             </Button>
                         </DialogActions>
-                    </Dialog> */}
+                    </Dialog>
 
                     {data && data?.product.reviews && data?.product.reviews[0] ? (
                         <div className="reviews">

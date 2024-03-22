@@ -16,10 +16,26 @@ export const productApi = createApi({
             }
         }),
         getProductDetails: builder.query({
-            query: (id) => `product/${id}`
+            query: (id) =>
+            ({
+                method: "GET",
+                url: `product/${id}`
+            }),
+            providesTags: ['ProductDetails']
+
+        }),
+
+        createReview: builder.mutation({
+            query: (data) => ({
+                method: "PUT",
+                url: `review`,
+                body: data,
+                headers: { "Authorization": localStorage.getItem("token") },
+            }),
+            invalidatesTags: ['ProductDetails']
         })
 
     }),
 });
 
-export const { useGetAllProductsQuery, useGetProductDetailsQuery } = productApi;
+export const { useGetAllProductsQuery, useGetProductDetailsQuery, useCreateReviewMutation } = productApi;

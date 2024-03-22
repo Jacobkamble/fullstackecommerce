@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Header.css";
 import { SpeedDial, SpeedDialAction } from "@mui/material";
 import Backdrop from '@mui/material/Backdrop';

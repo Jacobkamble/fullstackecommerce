@@ -54,11 +54,15 @@ function App() {
     }
   }, [isSuccess])
 
-
-  useEffect(async () => {
-    WebFont.load({ google: { families: ["Roboto", "Droid Sans", "Chilanka"] } });
+  const fetchApiKey = async () => {
     const res = await loadApiKey();
     setStripeApiKey(res);
+  }
+
+
+  useEffect(() => {
+    WebFont.load({ google: { families: ["Roboto", "Droid Sans", "Chilanka"] } });
+    fetchApiKey();
   }, [])
 
 
