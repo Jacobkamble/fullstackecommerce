@@ -36,6 +36,7 @@ import OrderDetails from './components/Order/OrderDetails';
 import { useLoadUserQuery } from './redux/services/user';
 import { setAuth } from './redux/features/auth';
 import { loadApiKey } from './utils/loadApiKey';
+import Dashboard from './components/Admin/Dashboard';
 
 
 function App() {
@@ -134,9 +135,17 @@ function App() {
           </Route>
 
           <Route exact path='/orders' element={
-            <ProtectedRoute>
+            <ProtectedRoute isAdmin={true}>
               <MyOrders />
             </ProtectedRoute>}>
+          </Route>
+
+          <Route exact path="/admin/dashboard" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }>
+
           </Route>
 
 

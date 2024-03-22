@@ -74,7 +74,18 @@ export const userApi = createApi({
                 url: `password/reset/${token}`,
                 body: { password, confirmPassword }
             })
+        }),
+
+        getAllUserListAdmin: builder.query({
+            query: () => ({
+                method: 'GET',
+                url: `admin/users`,
+                headers: { "Authorization": localStorage.getItem("token") },
+
+            })
         })
+
+
 
     })
 })
@@ -82,7 +93,7 @@ export const userApi = createApi({
 
 
 
-export const { useLoginMutation, useRegisterMutation, useLoadUserQuery, useLogoutQuery, useUpdateProfileMutation, useUpdatePasswordMutation, useForgotPasswordMutation, useResetPasswordMutation } = userApi
+export const { useLoginMutation, useRegisterMutation, useLoadUserQuery, useLogoutQuery, useUpdateProfileMutation, useUpdatePasswordMutation, useForgotPasswordMutation, useResetPasswordMutation, useGetAllUserListAdminQuery } = userApi
 
 
 

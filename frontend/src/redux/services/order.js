@@ -28,8 +28,21 @@ export const orderApi = createApi({
                 url: `order/${id}`,
                 headers: { "Authorization": localStorage.getItem("token") },
             })
+        }),
+        allOrderAdmin: builder.query({
+            query: () => ({
+                method: "GET",
+                url: `admin/orders`,
+                headers: { "Authorization": localStorage.getItem("token") },
+            }),
+            transformResponse: (res) => {
+                return {
+                    orders: res.orders,
+                    totalAmount: res.totalAmount
+                }
+            }
         })
     })
 })
 
-export const { useCreateOrderMutation, useMyOrdersQuery, useOrderDetailsQuery } = orderApi
+export const { useCreateOrderMutation, useMyOrdersQuery, useOrderDetailsQuery, useAllOrderAdminQuery } = orderApi

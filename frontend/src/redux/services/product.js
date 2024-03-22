@@ -15,6 +15,17 @@ export const productApi = createApi({
                 return { url: link };
             }
         }),
+        getAllProductsAdmin: builder.query({
+
+            query: () => {
+                return {
+                    url: `admin/products`,
+                    headers: { "Authorization": localStorage.getItem("token") },
+
+                };
+            }
+        })
+        ,
         getProductDetails: builder.query({
             query: (id) =>
             ({
@@ -33,9 +44,9 @@ export const productApi = createApi({
                 headers: { "Authorization": localStorage.getItem("token") },
             }),
             invalidatesTags: ['ProductDetails']
-        })
+        }),
 
     }),
 });
 
-export const { useGetAllProductsQuery, useGetProductDetailsQuery, useCreateReviewMutation } = productApi;
+export const { useGetAllProductsQuery, useGetProductDetailsQuery, useCreateReviewMutation, useGetAllProductsAdminQuery } = productApi;

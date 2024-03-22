@@ -168,26 +168,36 @@ exports.getProductReview = catchAsyncErrors(async (req, res, next) => {
 exports.deleteReview = catchAsyncErrors(
     async (req, res, next) => {
 
-    const product = await Product.findById(req.query.productId);
+        const product = await Product.findById(req.query.productId);
 
-    if (!product) {
-        return next(new ErrorHandler("Product not found", 404))
+        if (!product) {
+            return next(new ErrorHandler("Product not found", 404))
+        }
+
+        const reviews = product.reviews.filter((rev) => {
+            return rev._id.toString() !== req.query.id.toString()
+        })
+
+        const ratings = (reviews.reduce((acc, curr) => acc + curr.rating, 0)) / (reviews.length);
+
+        const noOfReviews = reviews.length;
+
+        await Product.findByIdAndUpdate(req.query.productId, { reviews, ratings, noOfReviews }, { new: true, runValidators: true, useFindAndModify: false })
+
+        res.status(200).json({
+            success: true,
+            message: "Product Deleted Successfully"
+        })
     }
 
-    const reviews = product.reviews.filter((rev) => {
-        return rev._id.toString() !== req.query.id.toString()
-    })
+)
 
-    const ratings = (reviews.reduce((acc, curr) => acc + curr.rating, 0)) / (reviews.length);
-
-    const noOfReviews = reviews.length;
-
-    await Product.findByIdAndUpdate(req.query.productId, { reviews, ratings, noOfReviews }, { new: true, runValidators: true, useFindAndModify: false })
+// Get All Product (Admin)
+exports.getAdminProducts = catchAsyncErrors(async (req, res, next) => {
+    const products = await Product.find();
 
     res.status(200).json({
         success: true,
-        message: "Product Deleted Successfully"
-    })
-}
-
-)
+        products,
+    });
+});
