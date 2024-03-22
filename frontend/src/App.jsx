@@ -37,6 +37,7 @@ import { useLoadUserQuery } from './redux/services/user';
 import { setAuth } from './redux/features/auth';
 import { loadApiKey } from './utils/loadApiKey';
 import Dashboard from './components/Admin/Dashboard';
+import ProductList from './components/Admin/ProductList';
 
 
 function App() {
@@ -140,13 +141,24 @@ function App() {
             </ProtectedRoute>}>
           </Route>
 
+          {/* {path = "/admin/products"} */}
+
           <Route exact path="/admin/dashboard" element={
-            <ProtectedRoute>
+            <ProtectedRoute isAdmin={true}>
               <Dashboard />
             </ProtectedRoute>
           }>
 
           </Route>
+
+          <Route exact path="/admin/products" element={
+            <ProtectedRoute isAdmin={true}>
+              <ProductList />
+            </ProtectedRoute>
+          }>
+
+          </Route>
+
 
 
         </Routes>

@@ -46,7 +46,15 @@ export const productApi = createApi({
             invalidatesTags: ['ProductDetails']
         }),
 
+        deleteProductAdmin: builder.mutation({
+            query: (id) => ({
+                method: "DELETE",
+                url: `admin/product/${id}`,
+                headers: { "Authorization": localStorage.getItem("token") },
+            })
+        })
+
     }),
 });
 
-export const { useGetAllProductsQuery, useGetProductDetailsQuery, useCreateReviewMutation, useGetAllProductsAdminQuery } = productApi;
+export const { useGetAllProductsQuery, useGetProductDetailsQuery, useCreateReviewMutation, useGetAllProductsAdminQuery, useDeleteProductAdminMutation } = productApi;
