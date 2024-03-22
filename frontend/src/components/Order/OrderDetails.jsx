@@ -8,14 +8,9 @@ import { showErrorMessage } from '../../utils/showErrorMessage';
 import "./OrderDetails.css"
 
 
-
 const OrderDetails = () => {
     const { id } = useParams();
     const { data, isLoading, isError, error } = useOrderDetailsQuery(id);
-
-    console.log(data, "dhsh", error)
-
-    // console.log(order, "order")
 
     useEffect(() => {
         if (isError) {
@@ -23,8 +18,6 @@ const OrderDetails = () => {
         }
 
     }, [isError, error])
-
-
 
     return (
         <>

@@ -29,17 +29,13 @@ import Cart from './components/Cart/Cart';
 import Shipping from "./components/Cart/Shipping";
 import ConfirmOrder from './components/Cart/ConfirmOrder';
 import Payment from './components/Cart/Payment';
-
-import { useLoadUserQuery } from './redux/services/user';
-import { setAuth } from './redux/features/auth';
-import { loadApiKey } from './utils/loadApiKey';
 import OrderSuccess from './components/Cart/OrderSuccess';
 import MyOrders from './components/Order/MyOrders';
 import OrderDetails from './components/Order/OrderDetails';
 
-
-
-
+import { useLoadUserQuery } from './redux/services/user';
+import { setAuth } from './redux/features/auth';
+import { loadApiKey } from './utils/loadApiKey';
 
 
 function App() {
@@ -59,10 +55,10 @@ function App() {
   }, [isSuccess])
 
 
-  useEffect(() => {
+  useEffect(async () => {
     WebFont.load({ google: { families: ["Roboto", "Droid Sans", "Chilanka"] } });
-
-    loadApiKey().then((res) => setStripeApiKey(res)).catch((err) => console.log(err));
+    const res = await loadApiKey();
+    setStripeApiKey(res);
   }, [])
 
 
