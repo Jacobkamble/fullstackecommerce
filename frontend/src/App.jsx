@@ -32,12 +32,16 @@ import Payment from './components/Cart/Payment';
 import OrderSuccess from './components/Cart/OrderSuccess';
 import MyOrders from './components/Order/MyOrders';
 import OrderDetails from './components/Order/OrderDetails';
+import Dashboard from './components/Admin/Dashboard';
+import ProductList from './components/Admin/ProductList';
+import CreateProduct from './components/Admin/CreateProduct';
+
 
 import { useLoadUserQuery } from './redux/services/user';
 import { setAuth } from './redux/features/auth';
 import { loadApiKey } from './utils/loadApiKey';
-import Dashboard from './components/Admin/Dashboard';
-import ProductList from './components/Admin/ProductList';
+
+
 
 
 function App() {
@@ -158,6 +162,14 @@ function App() {
           }>
 
           </Route>
+
+
+          <Route exact path='/admin/product' element={
+            <ProtectedRoute isAdmin={true} >
+              <CreateProduct />
+
+            </ProtectedRoute>
+          }></Route>
 
 
 

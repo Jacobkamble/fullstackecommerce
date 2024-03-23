@@ -14,7 +14,8 @@ export const productApi = createApi({
                 }
 
                 return { url: link };
-            }
+            },
+            providesTags: ["Productlist"]
         }),
         getAllProductsAdmin: builder.query({
 
@@ -56,9 +57,17 @@ export const productApi = createApi({
                 headers: { "Authorization": localStorage.getItem("token") },
             }),
             invalidatesTags: ["Productlist"]
+        }),
+        createProduct: builder.mutation({
+            query: (data) => ({
+                method: "POST",
+                url: `admin/product/new`,
+                body: data
+            }),
+            invalidatesTags: ["Productlist"]
         })
 
     }),
 });
 
-export const { useGetAllProductsQuery, useGetProductDetailsQuery, useCreateReviewMutation, useGetAllProductsAdminQuery, useDeleteProductAdminMutation } = productApi;
+export const { useGetAllProductsQuery, useGetProductDetailsQuery, useCreateReviewMutation, useGetAllProductsAdminQuery, useDeleteProductAdminMutation, useCreateProductMutation } = productApi;

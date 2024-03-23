@@ -11,8 +11,6 @@ import { useDeleteProductAdminMutation, useGetAllProductsAdminQuery } from '../.
 import { showErrorMessage } from '../../utils/showErrorMessage';
 import { showSuccessMessage } from "../../utils/successMessage"
 
-
-
 const ProductList = () => {
 
     const [rows, setRow] = useState([])
