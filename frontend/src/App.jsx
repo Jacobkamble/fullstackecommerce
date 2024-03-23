@@ -35,12 +35,14 @@ import OrderDetails from './components/Order/OrderDetails';
 import Dashboard from './components/Admin/Dashboard';
 import ProductList from './components/Admin/ProductList';
 import CreateProduct from './components/Admin/CreateProduct';
-
+import UpdateProduct from './components/Admin/UpdateProduct';
+import OrderList from './components/Admin/OrderList';
+import ProcessOrder from './components/Admin/ProcessOrder';
 
 import { useLoadUserQuery } from './redux/services/user';
 import { setAuth } from './redux/features/auth';
 import { loadApiKey } from './utils/loadApiKey';
-import UpdateProduct from './components/Admin/UpdateProduct';
+
 
 
 
@@ -174,13 +176,26 @@ function App() {
 
           <Route exact path='/admin/product/:id' element={
             <ProtectedRoute isAdmin={true}>
-              <UpdateProduct/>
-               </ProtectedRoute>
+              <UpdateProduct />
+            </ProtectedRoute>
           }>
 
           </Route>
 
+          <Route exact path='/admin/orders' element={
+            <ProtectedRoute isAdmin={true}>
+              <OrderList />
+            </ProtectedRoute>
+          } >
+          </Route>
 
+          <Route exact path='/admin/order/:id' element={
+            <ProtectedRoute isAdmin={true}>
+              <ProcessOrder />
+            </ProtectedRoute>
+          }>
+
+          </Route>
 
         </Routes>
 

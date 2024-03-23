@@ -11,6 +11,7 @@ export const orderApi = createApi({
                 headers: { "Authorization": localStorage.getItem("token") },
                 body: data
             }),
+            invalidatesTags: ["orderlist"]
 
         }),
 
@@ -19,7 +20,8 @@ export const orderApi = createApi({
                 method: "GET",
                 url: `orders/me`,
                 headers: { "Authorization": localStorage.getItem("token") },
-            })
+            }),
+            providesTags: ["orderlist"]
         }),
 
         orderDetails: builder.query({
@@ -27,7 +29,8 @@ export const orderApi = createApi({
                 method: "GET",
                 url: `order/${id}`,
                 headers: { "Authorization": localStorage.getItem("token") },
-            })
+            }),
+            providesTags: ["orderdetails"]
         }),
         allOrderAdmin: builder.query({
             query: () => ({
@@ -40,9 +43,28 @@ export const orderApi = createApi({
                     orders: res.orders,
                     totalAmount: res.totalAmount
                 }
-            }
+            },
+            providesTags: ["orderlist"]
+        }),
+        deleteOrder: builder.mutation({
+            query: (id) => ({
+                method: "DELETE",
+                url: `admin/order/${id}`,
+                headers: { "Authorization": localStorage.getItem("token") },
+            }),
+            invalidatesTags: ["orderlist"]
+        }),
+        updateOrder: builder.mutation({
+            query: ({ id, status }) => ({
+                method: "PUT",
+                url: `admin/order/${id}`,
+                body: { status },
+                headers: { "Authorization": localStorage.getItem("token") },
+            }),
+            invalidatesTags: ["orderlist", "orderdetails"]
         })
+
     })
 })
 
-export const { useCreateOrderMutation, useMyOrdersQuery, useOrderDetailsQuery, useAllOrderAdminQuery } = orderApi
+export const { useCreateOrderMutation, useMyOrdersQuery, useOrderDetailsQuery, useAllOrderAdminQuery, useDeleteOrderMutation, useUpdateOrderMutation } = orderApi
