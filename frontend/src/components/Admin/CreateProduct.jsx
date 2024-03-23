@@ -11,15 +11,18 @@ import StorageIcon from "@mui/icons-material/Storage";
 import SpellcheckIcon from "@mui/icons-material/Spellcheck";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { useCreateProductMutation } from '../../redux/services/product';
+import { useNavigate } from 'react-router-dom';
 
 const CreateProduct = () => {
 
     const [createProduct, { isLoading: loading, isError, isSuccess, error }] = useCreateProductMutation();
+    const navigate=useNavigate();
 
 
     useEffect(() => {
         if (isSuccess) {
             showSuccessMessage("Product created successfully");
+            navigate("/admin/products")
         }
 
         if (isError) {

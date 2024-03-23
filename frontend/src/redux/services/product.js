@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import ProductList from '../../components/Admin/ProductList';
 
 export const productApi = createApi({
     reducerPath: 'productApi',
@@ -62,12 +61,24 @@ export const productApi = createApi({
             query: (data) => ({
                 method: "POST",
                 url: `admin/product/new`,
-                body: data
+                body: data,
+                headers: { "Authorization": localStorage.getItem("token") },
             }),
             invalidatesTags: ["Productlist"]
+        }),
+        updateProduct:builder.mutation({
+            query:({id,formData})=>(
+                console.log(formData,"dejduejd"),
+                {
+                method:"PUT",
+                url:`admin/product/${id}`,
+                body: formData,
+                headers: { "Authorization": localStorage.getItem("token") },
+            }),
+            invalidatesTags: ["Productlist",'ProductDetails']
         })
 
     }),
 });
 
-export const { useGetAllProductsQuery, useGetProductDetailsQuery, useCreateReviewMutation, useGetAllProductsAdminQuery, useDeleteProductAdminMutation, useCreateProductMutation } = productApi;
+export const { useGetAllProductsQuery, useGetProductDetailsQuery, useCreateReviewMutation, useGetAllProductsAdminQuery, useDeleteProductAdminMutation, useCreateProductMutation,useUpdateProductMutation } = productApi;

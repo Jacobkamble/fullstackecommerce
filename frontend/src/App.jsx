@@ -40,6 +40,7 @@ import CreateProduct from './components/Admin/CreateProduct';
 import { useLoadUserQuery } from './redux/services/user';
 import { setAuth } from './redux/features/auth';
 import { loadApiKey } from './utils/loadApiKey';
+import UpdateProduct from './components/Admin/UpdateProduct';
 
 
 
@@ -167,9 +168,17 @@ function App() {
           <Route exact path='/admin/product' element={
             <ProtectedRoute isAdmin={true} >
               <CreateProduct />
-
             </ProtectedRoute>
           }></Route>
+
+
+          <Route exact path='/admin/product/:id' element={
+            <ProtectedRoute isAdmin={true}>
+              <UpdateProduct/>
+               </ProtectedRoute>
+          }>
+
+          </Route>
 
 
 
