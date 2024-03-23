@@ -8,20 +8,21 @@ import Sidebar from './Sidebar';
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDeleteProductAdminMutation, useGetAllProductsAdminQuery } from '../../redux/services/product';
+import { showErrorMessage } from '../../utils/showErrorMessage';
+import { showSuccessMessage } from "../../utils/successMessage"
+
 
 
 const ProductList = () => {
 
-
     const [rows, setRow] = useState([])
-    const { data: products, isSuccess } = useGetAllProductsAdminQuery();
+    const { data: products, isSuccess, isError: isAdminlistError, error: adminError } = useGetAllProductsAdminQuery();
 
-    const [deleteProduct, { }] = useDeleteProductAdminMutation();
+    const [deleteProduct, { isError: isDeleteError, isLoading: isDeleteLoading, isSuccess: isDeleteSuccess, error: deleteError }] = useDeleteProductAdminMutation();
 
     const deleteProductHandler = (id) => {
         deleteProduct(id);
     };
-
 
 
     useEffect(() => {
@@ -38,7 +39,21 @@ const ProductList = () => {
             setRow(transformData)
         }
 
-    }, [products, isSuccess])
+        if (isAdminlistError) {
+            showErrorMessage(adminError)
+        }
+
+        if (isDeleteError) {
+            showErrorMessage(deleteError)
+        }
+
+    }, [products, isSuccess, isAdminlistError, adminError, isDeleteError, deleteError, isDeleteSuccess])
+
+    useEffect(() => {
+        if (isDeleteSuccess) {
+            showSuccessMessage("Product deleted successfully")
+        }
+    }, [isDeleteSuccess])
 
     const columns = [
         { field: "id", headerName: "Product ID", minWidth: 200, flex: 0.5 },
@@ -80,6 +95,7 @@ const ProductList = () => {
                         </Link>
 
                         <Button
+                            disabled={isDeleteLoading}
                             onClick={() =>
                                 deleteProductHandler(params.row.id)
                             }

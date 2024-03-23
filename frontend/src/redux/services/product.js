@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import ProductList from '../../components/Admin/ProductList';
 
 export const productApi = createApi({
     reducerPath: 'productApi',
@@ -23,7 +24,9 @@ export const productApi = createApi({
                     headers: { "Authorization": localStorage.getItem("token") },
 
                 };
-            }
+            },
+            providesTags: ["Productlist"]
+
         })
         ,
         getProductDetails: builder.query({
@@ -51,7 +54,8 @@ export const productApi = createApi({
                 method: "DELETE",
                 url: `admin/product/${id}`,
                 headers: { "Authorization": localStorage.getItem("token") },
-            })
+            }),
+            invalidatesTags: ["Productlist"]
         })
 
     }),
