@@ -81,8 +81,17 @@ export const userApi = createApi({
                 method: 'GET',
                 url: `admin/users`,
                 headers: { "Authorization": localStorage.getItem("token") },
+            }),
+            providesTags: ["userlist"]
+        }),
 
-            })
+        deleteUser: builder.mutation({
+            query: (id) => ({
+                method: "DELETE",
+                url: `admin/user/${id}`,
+                headers: { "Authorization": localStorage.getItem("token") },
+            }),
+            invalidatesTags: ["userlist"]
         })
 
 
@@ -93,7 +102,7 @@ export const userApi = createApi({
 
 
 
-export const { useLoginMutation, useRegisterMutation, useLoadUserQuery, useLogoutQuery, useUpdateProfileMutation, useUpdatePasswordMutation, useForgotPasswordMutation, useResetPasswordMutation, useGetAllUserListAdminQuery } = userApi
+export const { useLoginMutation, useRegisterMutation, useLoadUserQuery, useLogoutQuery, useUpdateProfileMutation, useUpdatePasswordMutation, useForgotPasswordMutation, useResetPasswordMutation, useGetAllUserListAdminQuery, useDeleteUserMutation } = userApi
 
 
 

@@ -42,6 +42,7 @@ import ProcessOrder from './components/Admin/ProcessOrder';
 import { useLoadUserQuery } from './redux/services/user';
 import { setAuth } from './redux/features/auth';
 import { loadApiKey } from './utils/loadApiKey';
+import UserList from './components/Admin/UserList';
 
 
 
@@ -194,6 +195,13 @@ function App() {
               <ProcessOrder />
             </ProtectedRoute>
           }>
+
+          </Route>
+
+          <Route exact path='/admin/users' element={
+            <ProtectedRoute isAdmin={true}>
+              <UserList />
+            </ProtectedRoute>}>
 
           </Route>
 
