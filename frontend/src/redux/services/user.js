@@ -36,6 +36,7 @@ export const userApi = createApi({
                 headers: { "Authorization": localStorage.getItem("token") },
                 credentials: "include"
             })
+            , providesTags: ["userdetail"]
         }),
         logout: builder.query({
             query: () => ({
@@ -50,7 +51,8 @@ export const userApi = createApi({
                 url: `me/update`,
                 body: data,
                 headers: { "Authorization": localStorage.getItem("token") }
-            })
+            }),
+            invalidatesTags: ["userdetail"]
         }),
         updatePassword: builder.mutation({
             query: (data) => ({
@@ -75,16 +77,14 @@ export const userApi = createApi({
                 body: { password, confirmPassword }
             })
         }),
-
         getAllUserListAdmin: builder.query({
             query: () => ({
                 method: 'GET',
                 url: `admin/users`,
                 headers: { "Authorization": localStorage.getItem("token") },
             }),
-            providesTags: ["userlist"]
+            providesTags: ["userlist", "userdetail"]
         }),
-
         deleteUser: builder.mutation({
             query: (id) => ({
                 method: "DELETE",
@@ -92,17 +92,33 @@ export const userApi = createApi({
                 headers: { "Authorization": localStorage.getItem("token") },
             }),
             invalidatesTags: ["userlist"]
+        }),
+        getUserDetailAdmin: builder.query({
+            query: (id) => ({
+                method: "GET",
+                url: `admin/user/${id}`,
+                headers: { "Authorization": localStorage.getItem("token") },
+
+            })
+        }),
+        updateUser: builder.mutation({
+            query: ({ id, data }) => ({
+                method: "PUT",
+                url: `admin/user/${id}`,
+                headers: { "Authorization": localStorage.getItem("token") },
+                body: data,
+
+
+            }),
+            invalidatesTags: ["userlist", "userdetail"]
         })
-
-
-
     })
 })
 
 
 
 
-export const { useLoginMutation, useRegisterMutation, useLoadUserQuery, useLogoutQuery, useUpdateProfileMutation, useUpdatePasswordMutation, useForgotPasswordMutation, useResetPasswordMutation, useGetAllUserListAdminQuery, useDeleteUserMutation } = userApi
+export const { useLoginMutation, useRegisterMutation, useLoadUserQuery, useLogoutQuery, useUpdateProfileMutation, useUpdatePasswordMutation, useForgotPasswordMutation, useResetPasswordMutation, useGetAllUserListAdminQuery, useDeleteUserMutation, useGetUserDetailAdminQuery, useUpdateUserMutation } = userApi
 
 
 

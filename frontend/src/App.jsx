@@ -43,6 +43,7 @@ import { useLoadUserQuery } from './redux/services/user';
 import { setAuth } from './redux/features/auth';
 import { loadApiKey } from './utils/loadApiKey';
 import UserList from './components/Admin/UserList';
+import UpdateUser from './components/Admin/UpdateUser';
 
 
 
@@ -202,7 +203,13 @@ function App() {
             <ProtectedRoute isAdmin={true}>
               <UserList />
             </ProtectedRoute>}>
+          </Route>
 
+          <Route exact path='/admin/user/:id' element={
+            <ProtectedRoute isAdmin={true}>
+              {/* <UserList /> */}
+              <UpdateUser />
+            </ProtectedRoute>}>
           </Route>
 
         </Routes>
