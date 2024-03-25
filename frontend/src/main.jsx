@@ -10,6 +10,8 @@ import store from "./redux/store.js"
 // dotenv.config();
 // dotenv.config({ path: "/config.env" });
 
+console.log(<App />, "sjsj")
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>

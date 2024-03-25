@@ -38,12 +38,14 @@ import CreateProduct from './components/Admin/CreateProduct';
 import UpdateProduct from './components/Admin/UpdateProduct';
 import OrderList from './components/Admin/OrderList';
 import ProcessOrder from './components/Admin/ProcessOrder';
+import UserList from './components/Admin/UserList';
+import UpdateUser from './components/Admin/UpdateUser';
+import ProductReviews from './components/Admin/ProductReviews';
 
 import { useLoadUserQuery } from './redux/services/user';
 import { setAuth } from './redux/features/auth';
 import { loadApiKey } from './utils/loadApiKey';
-import UserList from './components/Admin/UserList';
-import UpdateUser from './components/Admin/UpdateUser';
+
 
 
 
@@ -207,10 +209,15 @@ function App() {
 
           <Route exact path='/admin/user/:id' element={
             <ProtectedRoute isAdmin={true}>
-              {/* <UserList /> */}
               <UpdateUser />
             </ProtectedRoute>}>
           </Route>
+
+          <Route exact path='/admin/reviews' element={
+            <ProtectedRoute isAdmin={true}>
+              <ProductReviews />
+            </ProtectedRoute>
+          }></Route>
 
         </Routes>
 
