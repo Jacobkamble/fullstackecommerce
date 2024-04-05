@@ -91,6 +91,7 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
         });
     }
 
+    
     order.orderStatus = req.body.status;
 
     if (req.body.status === "Delivered") {
